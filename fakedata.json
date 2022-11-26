@@ -1,0 +1,113 @@
+[
+    { 
+       "brandName":"iPhone" ,
+       "name":"iPhone 8 pro",
+       "picture":"https://i.ibb.co/h2ndt3Y/iPhone1.jpg",
+       "location":"Mirpur 13",
+       "resalePrice":100,
+       "originalPrice":200,
+       "yearsOfUse":1.4,
+       "postedTime":"10/04/2022",
+       "sellerName":"Arif Islam"
+    },
+    { 
+       "brandName":"iPhone" ,
+       "name":"iPhone 11 pro",
+       "picture":"https://i.ibb.co/Dr7nvyZ/iPhone3.jpg",
+       "location":"Mirpur 13",
+       "resalePrice":120,
+       "originalPrice":300,
+       "yearsOfUse":1.4,
+       "postedTime":"10/04/2022",
+       "sellerName":"Skh Aali"
+    },
+    { 
+       "brandName":"iPhone" ,
+       "name":"iPhone 9 pro",
+       "picture":"https://i.ibb.co/fDW235T/iphone2.jpg",
+       "location":"Mirpur 13",
+       "resalePrice":50,
+       "originalPrice":100,
+       "yearsOfUse":1.4,
+       "postedTime":"10/04/2022",
+       "sellerName":"Skh Aali"
+    },
+    { 
+       "brandName":"Samsung" ,
+       "name":"Samsung S20+ ",
+       "picture":"https://i.ibb.co/LgqmZyv/samsung1.webp",
+       "location":"Mirpur 13",
+       "resalePrice":50,
+       "originalPrice":100,
+       "yearsOfUse":1.4,
+       "postedTime":"10/04/2022",
+       "sellerName":"Skh Aali"
+    },
+    { 
+       "brandName":"Samsung" ,
+       "name":"Samsung Galaxy 9 ",
+       "picture":"https://i.ibb.co/0XgGd5y/samsung2.jpg",
+       "location":"Mirpur 13",
+       "resalePrice":50,
+       "originalPrice":100,
+       "yearsOfUse":1.4,
+       "postedTime":"10/04/2022",
+       "sellerName":"Skh Aali"
+    },
+    { 
+       "brandName":"Samsung" ,
+       "name":"Samsung Galaxy s plse ",
+       "picture":"https://i.ibb.co/Byw2Fcm/samsung3.jpg",
+       "location":"Mirpur 13",
+       "resalePrice":50,
+       "originalPrice":100,
+       "yearsOfUse":1.4,
+       "postedTime":"10/04/2022",
+       "sellerName":"Skh Aali"
+    },
+    { 
+       "brandName":"Samsung" ,
+       "name":"Samsung Galaxy 10",
+       "picture":"https://i.ibb.co/XxJFzbf/samsung1.png",
+       "location":"Mirpur 13",
+       "resalePrice":50,
+       "originalPrice":200,
+       "yearsOfUse":1.4,
+       "postedTime":"10/04/2022",
+       "sellerName":"Sumaiya Islam"
+    },
+    { 
+       "brandName":"Xiaomi" ,
+       "name":"MI pro Max",
+       "picture":"https://i.ibb.co/QKfccwq/xi1.jpg",
+       "location":"Mirpur 13",
+       "resalePrice":50,
+       "originalPrice":600,
+       "yearsOfUse":1.4,
+       "postedTime":"10/04/2022",
+       "sellerName":"Sheikkh Ali"
+    },
+    { 
+       "brandName":"Xiaomi" ,
+       "name":"Mi S21 pro",
+       "picture":"https://i.ibb.co/8N1KXSk/mi2.webp",
+       "location":"Mirpur 13",
+       "resalePrice":50,
+       "originalPrice":100,
+       "yearsOfUse":1,
+       "postedTime":"15/04/2022",
+       "sellerName":"Omaer Islam"
+    },
+    { 
+       "brandName":"Xiaomi" ,
+       "name":"Mi note pro 5",
+       "picture":"https://i.ibb.co/2yTQ20Q/mi3.jpg",
+       "location":"Dhaka 1216",
+       "resalePrice":50,
+       "originalPrice":100,
+       "yearsOfUse":2,
+       "postedTime":"15/04/2021",
+       "sellerName":"Mr Arif"
+    }
+  
+]
