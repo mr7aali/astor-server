@@ -40,7 +40,6 @@ async function run() {
             const query = { _id: ObjectId(brandID) };
             const singleBrand = await brandCollection.find(query).toArray();
             const NeddedBrand = singleBrand[0].brandName;
-
             //console.log(NeddedBrand)
             const query2 = { brandName: NeddedBrand };
             const cursor = phoneCollection.find(query2);
@@ -55,10 +54,29 @@ async function run() {
         }) 
         app.post('/user', async (req, res) => {
             const user = req.body;
-            const result = await useringCollection.insertOne(user);
-            res.send(result)
-        }) 
+            const emailClintSite = user?.Email;
+            const query ={Email:emailClintSite};
+            const isexitEmail = await useringCollection.find(query).toArray();
+        
+           const emailServerSite = isexitEmail[0]?.Email;
+                if(emailClintSite === emailServerSite){
+                    console.log("user exist");
+                   
+                }     
 
+            //const result = await useringCollection.insertOne(user);
+                else{
+                    const result = await useringCollection.insertOne(user);
+                    res.send(result)
+                }
+         
+        })
+        app.get('/userrol',async(req,res)=>{
+            const isRoler= req.query.email;
+            const query ={Email:isRoler};
+            const dbUser= await useringCollection.find(query).toArray();
+            res.send(dbUser)
+        }) 
     }
     finally {
 
