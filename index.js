@@ -205,7 +205,7 @@ async function run() {
             }
             const result = await useringCollection.updateOne(filter, updateDoc, option);
             res.send(result)
-            console.log(result);
+          
         })
 
 
