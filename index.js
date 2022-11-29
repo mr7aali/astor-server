@@ -41,16 +41,16 @@ async function run() {
         app.get('/categorys/:id', async (req, res) => {
 
             const brandID = req.params.id;
-            // console.log(brandID);
+          
 
             const query = { _id: ObjectId(brandID) };
             const singleBrand = await brandCollection.find(query).toArray();
             const NeddedBrand = singleBrand[0].brandName;
-            //console.log(NeddedBrand)
+          
             const query2 = { brandName: NeddedBrand };
             const cursor = phoneCollection.find(query2);
             const phones = await cursor.toArray();
-            //  console.log(phones)
+           
             res.send(phones);
         })
 
@@ -74,7 +74,7 @@ async function run() {
             const result = await bookingCollection.find(bookingsIteam).project({ _id: 1 }).toArray();
 
             res.send(result)
-            console.log(result)
+        
         })
 
 
@@ -84,6 +84,18 @@ async function run() {
             const add = req.body;
             const result = await advertiseCollection.insertOne(add);
             res.send(result)
+        })
+        app.delete('/deleteAddvertise', async (req, res) => {
+            const tergetEmail = req.query.email;
+            const tergetPrice = req.query.price;
+           
+            const query = { 
+                sellerEmail: tergetEmail,
+                resalePrice: tergetPrice
+            };
+            const result = await advertiseCollection.deleteOne(query);
+           
+            res.send(result);
         })
 
 
@@ -152,18 +164,22 @@ async function run() {
             const terget = req.query.id;
             const query = { _id: ObjectId(terget) };
             const result = await useringCollection.deleteOne(query);
-            console.log(result);
+           
             res.send(result);
         })
 
 
+
         app.put('/updateproductstatus', async (req, res) => {
             const tergetEmail = req.query.email;
-           
+            const tPrice = req.query.price;
+          
             const filter = {
-                sellerEmail: tergetEmail
+                sellerEmail: tergetEmail,
+                resalePrice: tPrice
             }
-            const option = { upsert: true };
+           
+            const option = { upsert: false };
             const updateDoc = {
                 $set: {
                     Bookingstatus: true,
@@ -172,6 +188,24 @@ async function run() {
             }
             const result = await phoneCollection.updateOne(filter, updateDoc, option);
             res.send(result)
+        })
+
+
+        app.put('/verifyUser',async(req,res)=>{
+            const tergetId=req.query.id;
+            
+            const filter={
+                _id: ObjectId(tergetId) 
+            }
+            const option = { upsert: false };
+            const updateDoc = {
+                $set: {
+                    verification : true,
+                }
+            }
+            const result = await useringCollection.updateOne(filter, updateDoc, option);
+            res.send(result)
+            console.log(result);
         })
 
 
