@@ -25,10 +25,16 @@ async function run() {
         const phoneCollection = client.db('Astor').collection('catagories');
         const bookingCollection = client.db('Astor').collection('Booking');
         const useringCollection = client.db('Astor').collection('Users');
+        const advertiseCollection = client.db('Astor').collection('advertiseIteam');
     
         app.get('/brand', async (req, res) => {
             const query = {};
             const options = await brandCollection.find(query).toArray();
+            res.send(options);
+        })
+        app.get('/advertise', async (req, res) => {
+            const query = {};
+            const options = await advertiseCollection.find(query).toArray();
             res.send(options);
         })
 
@@ -47,11 +53,45 @@ async function run() {
             //  console.log(phones)
             res.send(phones);
         })
+
+
+
+
+
         app.post('/booking', async (req, res) => {
             const bookingsIteam = req.body;
             const result = await bookingCollection.insertOne(bookingsIteam);
             res.send(result)
         }) 
+
+        app.post('/addadvertise', async (req, res) => {
+            const add = req.body;
+            const result = await advertiseCollection.insertOne(add);
+            res.send(result)
+        }) 
+        
+
+        app.post('/addproduct', async (req, res) => {
+            const bookingsIteam = req.body;
+            const result = await phoneCollection.insertOne(bookingsIteam);
+            res.send(result)
+        }) 
+
+        app.get('/buyers',async(req,res)=>{
+            const query ={rol:'buyer'}
+            const buyers= await useringCollection.find(query).toArray();
+            res.send(buyers);
+            
+        })
+        app.get('/sellers',async(req,res)=>{
+            const query ={rol:'seller'}
+            const sellers= await useringCollection.find(query).toArray();
+            res.send(sellers);
+        })
+
+
+
+
         app.post('/user', async (req, res) => {
             const user = req.body;
             const emailClintSite = user?.Email;
@@ -60,8 +100,7 @@ async function run() {
         
            const emailServerSite = isexitEmail[0]?.Email;
                 if(emailClintSite === emailServerSite){
-                    console.log("user exist");
-                   
+                    console.log("user exist");                 
                 }     
 
             //const result = await useringCollection.insertOne(user);
@@ -71,12 +110,38 @@ async function run() {
                 }
          
         })
+
+
         app.get('/userrol',async(req,res)=>{
             const isRoler= req.query.email;
             const query ={Email:isRoler};
             const dbUser= await useringCollection.find(query).toArray();
             res.send(dbUser)
         }) 
+
+        app.get('/booking',async(req,res)=>{
+            const isRoler= req.query.email;
+            const query ={Email:isRoler};
+            const booking= await bookingCollection.find(query).toArray();
+            res.send(booking)
+        }) 
+
+        app.get('/sellerproduct',async(req,res)=>{
+            const isRoler= req.query.email;
+            const query ={sellerEmail:isRoler};
+            const booking= await phoneCollection.find(query).toArray();
+            res.send(booking)
+        }) 
+        app.delete('/deleteBuyers',async(req,res)=>{
+            const terget= req.query.id;
+            const query={ _id: ObjectId(terget) };
+            const result = await useringCollection.deleteOne(query);
+            console.log(result);
+            res.send(result);
+        })
+        
+
+
     }
     finally {
 
@@ -84,11 +149,6 @@ async function run() {
 }
 
 run().catch(err => console.error(err));
-
-
-
-
-
 
 
 
