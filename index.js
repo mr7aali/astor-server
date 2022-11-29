@@ -26,7 +26,7 @@ async function run() {
         const bookingCollection = client.db('Astor').collection('Booking');
         const useringCollection = client.db('Astor').collection('Users');
         const advertiseCollection = client.db('Astor').collection('advertiseIteam');
-    
+
         app.get('/brand', async (req, res) => {
             const query = {};
             const options = await brandCollection.find(query).toArray();
@@ -62,30 +62,46 @@ async function run() {
             const bookingsIteam = req.body;
             const result = await bookingCollection.insertOne(bookingsIteam);
             res.send(result)
-        }) 
+        })
+
+
+
+
+
+
+        app.get('/bookingfardin', async (req, res) => {
+            const bookingsIteam = {};
+            const result = await bookingCollection.find(bookingsIteam).project({ _id: 1 }).toArray();
+
+            res.send(result)
+            console.log(result)
+        })
+
+
+
 
         app.post('/addadvertise', async (req, res) => {
             const add = req.body;
             const result = await advertiseCollection.insertOne(add);
             res.send(result)
-        }) 
-        
+        })
+
 
         app.post('/addproduct', async (req, res) => {
             const bookingsIteam = req.body;
             const result = await phoneCollection.insertOne(bookingsIteam);
             res.send(result)
-        }) 
-
-        app.get('/buyers',async(req,res)=>{
-            const query ={rol:'buyer'}
-            const buyers= await useringCollection.find(query).toArray();
-            res.send(buyers);
-            
         })
-        app.get('/sellers',async(req,res)=>{
-            const query ={rol:'seller'}
-            const sellers= await useringCollection.find(query).toArray();
+
+        app.get('/buyers', async (req, res) => {
+            const query = { rol: 'buyer' }
+            const buyers = await useringCollection.find(query).toArray();
+            res.send(buyers);
+
+        })
+        app.get('/sellers', async (req, res) => {
+            const query = { rol: 'seller' }
+            const sellers = await useringCollection.find(query).toArray();
             res.send(sellers);
         })
 
@@ -95,51 +111,75 @@ async function run() {
         app.post('/user', async (req, res) => {
             const user = req.body;
             const emailClintSite = user?.Email;
-            const query ={Email:emailClintSite};
+            const query = { Email: emailClintSite };
             const isexitEmail = await useringCollection.find(query).toArray();
-        
-           const emailServerSite = isexitEmail[0]?.Email;
-                if(emailClintSite === emailServerSite){
-                    console.log("user exist");                 
-                }     
+
+            const emailServerSite = isexitEmail[0]?.Email;
+            if (emailClintSite === emailServerSite) {
+                console.log("user exist");
+            }
 
             //const result = await useringCollection.insertOne(user);
-                else{
-                    const result = await useringCollection.insertOne(user);
-                    res.send(result)
-                }
-         
+            else {
+                const result = await useringCollection.insertOne(user);
+                res.send(result)
+            }
+
         })
 
 
-        app.get('/userrol',async(req,res)=>{
-            const isRoler= req.query.email;
-            const query ={Email:isRoler};
-            const dbUser= await useringCollection.find(query).toArray();
+        app.get('/userrol', async (req, res) => {
+            const isRoler = req.query.email;
+            const query = { Email: isRoler };
+            const dbUser = await useringCollection.find(query).toArray();
             res.send(dbUser)
-        }) 
+        })
 
-        app.get('/booking',async(req,res)=>{
-            const isRoler= req.query.email;
-            const query ={Email:isRoler};
-            const booking= await bookingCollection.find(query).toArray();
+        app.get('/booking', async (req, res) => {
+            const isRoler = req.query.email;
+            const query = { Email: isRoler };
+            const booking = await bookingCollection.find(query).toArray();
             res.send(booking)
-        }) 
+        })
 
-        app.get('/sellerproduct',async(req,res)=>{
-            const isRoler= req.query.email;
-            const query ={sellerEmail:isRoler};
-            const booking= await phoneCollection.find(query).toArray();
+        app.get('/sellerproduct', async (req, res) => {
+            const isRoler = req.query.email;
+            const query = { sellerEmail: isRoler };
+            const booking = await phoneCollection.find(query).toArray();
             res.send(booking)
-        }) 
-        app.delete('/deleteBuyers',async(req,res)=>{
-            const terget= req.query.id;
-            const query={ _id: ObjectId(terget) };
+        })
+        app.delete('/deleteBuyers', async (req, res) => {
+            const terget = req.query.id;
+            const query = { _id: ObjectId(terget) };
             const result = await useringCollection.deleteOne(query);
             console.log(result);
             res.send(result);
         })
-        
+
+
+        app.put('/updateproductstatus', async (req, res) => {
+            const tergetEmail = req.query.email;
+           
+            const filter = {
+                sellerEmail: tergetEmail
+            }
+            const option = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    Bookingstatus: true,
+
+                }
+            }
+            const result = await phoneCollection.updateOne(filter, updateDoc, option);
+            res.send(result)
+        })
+
+
+
+
+
+
+
 
 
     }
