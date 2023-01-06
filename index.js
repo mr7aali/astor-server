@@ -4,14 +4,13 @@ const cors = require('cors');
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
-
+const jwt= require('jsonwebtoken');
 //middleware
 app.use(cors());
 app.use(express.json());
 
 
-//pass      Thzl1NGlAvdi3pww
-//user    astor
+
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.lopokh6.mongodb.net/?retryWrites=true&w=majority`;
@@ -26,6 +25,14 @@ async function run() {
         const bookingCollection = client.db('Astor').collection('Booking');
         const useringCollection = client.db('Astor').collection('Users');
         const advertiseCollection = client.db('Astor').collection('advertiseIteam');
+
+
+
+        app.post('/jwt',(req,res)=>{
+            const user = req.body;
+            console.log(user);
+        })
+
 
         app.get('/brand', async (req, res) => {
             const query = {};
@@ -60,6 +67,7 @@ async function run() {
 
         app.post('/booking', async (req, res) => {
             const bookingsIteam = req.body;
+           
             const result = await bookingCollection.insertOne(bookingsIteam);
             res.send(result)
         })
@@ -85,10 +93,11 @@ async function run() {
             const result = await advertiseCollection.insertOne(add);
             res.send(result)
         })
+
         app.delete('/deleteAddvertise', async (req, res) => {
             const tergetEmail = req.query.email;
             const tergetPrice = req.query.price;
-           
+            console.log('Delete called');
             const query = { 
                 sellerEmail: tergetEmail,
                 resalePrice: tergetPrice
@@ -144,7 +153,7 @@ async function run() {
             const dbUser = await useringCollection.find(query).toArray();
             res.send(dbUser)
         })
-
+/////////////////////jwt Token/////////////////////////////////////////////////////////////
         app.get('/booking', async (req, res) => {
             const isRoler = req.query.email;
             const query = { Email: isRoler };
