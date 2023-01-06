@@ -18,6 +18,25 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 
 
+function verifyJWT(req,res,next){
+    
+    const authHeader = req?.headers?.authorization;
+    if(!authHeader){
+     return   res.status(401).send({message:'Unauthorized access'});
+    }
+    const token = authHeader?.split(' ')[1];
+    jwt.verify(token,process.env.ACCESS_TOKEN_SECRET, function (err,decoded){
+        if(err){
+          return  res.status(401).send({massage:'Unauthorized access'});
+        }
+       req.decoded= decoded;
+    })
+    next();   
+}
+
+
+
+
 async function run() {
     try {
         const brandCollection = client.db('Astor').collection('brand');
@@ -30,7 +49,11 @@ async function run() {
 
         app.post('/jwt',(req,res)=>{
             const user = req.body;
-            console.log(user);
+           
+            const token = jwt.sign({email: user.email}, process.env.ACCESS_TOKEN_SECRET,{expiresIn:"10h"});
+       
+            
+            res.send({token});
         })
 
 
@@ -135,7 +158,9 @@ async function run() {
 
             const emailServerSite = isexitEmail[0]?.Email;
             if (emailClintSite === emailServerSite) {
-                console.log("user exist");
+            //   
+            res.send({User:'userExist'})
+            
             }
 
             //const result = await useringCollection.insertOne(user);
@@ -154,7 +179,13 @@ async function run() {
             res.send(dbUser)
         })
 /////////////////////jwt Token/////////////////////////////////////////////////////////////
-        app.get('/booking', async (req, res) => {
+        app.get('/booking',verifyJWT, async (req, res) => {
+            
+            const decoded =req.decoded;
+          
+            if(decoded.email !== req.query.email ){
+                return  res.status(401).send({massage:'Unauthorized access'});
+              }
             const isRoler = req.query.email;
             const query = { Email: isRoler };
             const booking = await bookingCollection.find(query).toArray();
