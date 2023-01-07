@@ -24,14 +24,18 @@ function verifyJWT(req,res,next){
     if(!authHeader){
      return   res.status(401).send({message:'Unauthorized access'});
     }
+
     const token = authHeader?.split(' ')[1];
     jwt.verify(token,process.env.ACCESS_TOKEN_SECRET, function (err,decoded){
         if(err){
-          return  res.status(401).send({massage:'Unauthorized access'});
+          return  res.status(403).send({massage:'Unauthorized access'});
         }
-       req.decoded= decoded;
+        else{
+            req.decoded= decoded;
+            next(); 
+        }
     })
-    next();   
+     
 }
 
 
@@ -50,7 +54,7 @@ async function run() {
         app.post('/jwt',(req,res)=>{
             const user = req.body;
            
-            const token = jwt.sign({email: user.email}, process.env.ACCESS_TOKEN_SECRET,{expiresIn:"10h"});
+            const token = jwt.sign({email: user.email}, process.env.ACCESS_TOKEN_SECRET,{expiresIn:"12h"});
        
             
             res.send({token});
@@ -183,7 +187,7 @@ async function run() {
             
             const decoded =req.decoded;
           
-            if(decoded.email !== req.query.email ){
+            if(decoded?.email !== req.query.email ){
                 return  res.status(401).send({massage:'Unauthorized access'});
               }
             const isRoler = req.query.email;
